@@ -33,25 +33,7 @@ To run this project efficiently, the following minimum hardware requirements are
 - **GPU**: NVIDIA GPU with at least >= 2 GB VRAM (for GPU acceleration - optional)
 - **Storage**: >= 6 GB SSD (Contain source code and database)
 
-## Concept:
-### What is RAG?
-Retrieval-Augmented Generation (RAG) is a technique that combines retrieval-based and generation-based methods to improve the quality and relevance of generated text. It retrieves relevant documents from a knowledge base and uses them to generate more accurate and contextually appropriate responses.
 
-### Sentence transformer:
-A sentence transformer is a type of model used to convert sentences into dense vector representations. These vectors can then be used for various tasks such as semantic search, clustering, and classification. In this project, we use the Vietnamese LLM sentence-transformer (sup-SimCSE-VietNamese-phobert-base) to embed documents into vectors for efficient retrieval and processing.
-
-### Vector embedding:
-Vector embedding is the process of converting text into numerical vectors that capture the semantic meaning of the text. In this project, we use the Vietnamese LLM sentence-transformer (sup-SimCSE-VietNamese-phobert-base) to create embeddings for documents, which are then stored in Qdrant VectorDB for efficient retrieval.
-
-### Retrieval:
-Retrieval involves searching for and fetching relevant documents from a knowledge base. In this project, we use the embeddings stored in Qdrant VectorDB to quickly find documents that are most relevant to the input query, improving the accuracy and relevance of the generated responses.
-
-### Similarity search/vector search
-Similarity search/vector search aims to find two vectors which are close together in high-demensional space. For example,
-two pieces of similar text passed through an embedding model should have a high similarity score, whereas two pieces of text about
-different topics will have a lower similarity score. Common similarity score measures are dot product and cosine similarity.
-
- 
 ## Workflow:
 1. **Data Ingestion**: Documents are ingested and sent to the Celery worker.
 2. **Embedding Creation**: The Celery worker uses the Vietnamese LLM sentence-transformer to create embeddings for the documents.
@@ -91,5 +73,25 @@ These commands will set up the necessary environment and start the services requ
 ### AWS:
 ## See our benchmark:
 
+## Concept:
+### What is RAG?
+Retrieval-Augmented Generation (RAG) is a technique that combines retrieval-based and generation-based methods to improve the quality and relevance of generated text. It retrieves relevant documents from a knowledge base and uses them to generate more accurate and contextually appropriate responses.
+
+### Sentence transformer:
+A sentence transformer is a type of model used to convert sentences into dense vector representations. These vectors can then be used for various tasks such as semantic search, clustering, and classification. In this project, we use the Vietnamese LLM sentence-transformer (sup-SimCSE-VietNamese-phobert-base) to embed documents into vectors for efficient retrieval and processing.
+
+### Vector embedding:
+Vector embedding is the process of converting text into numerical vectors that capture the semantic meaning of the text. In this project, we use the Vietnamese LLM sentence-transformer (sup-SimCSE-VietNamese-phobert-base) to create embeddings for documents, which are then stored in Qdrant VectorDB for efficient retrieval.
+
+### Retrieval:
+Retrieval involves searching for and fetching relevant documents from a knowledge base. In this project, we use the embeddings stored in Qdrant VectorDB to quickly find documents that are most relevant to the input query, improving the accuracy and relevance of the generated responses.
+
+### Similarity search/vector search
+Similarity search/vector search aims to find two vectors which are close together in high-demensional space. For example,
+two pieces of similar text passed through an embedding model should have a high similarity score, whereas two pieces of text about
+different topics will have a lower similarity score. Common similarity score measures are dot product and cosine similarity.
+
+ 
+ 
 ## Resources:
 - [RAG 101: Demystifying Retrieval-Augmented Generation Pipelines](https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/)
