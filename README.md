@@ -82,6 +82,7 @@ A sentence transformer is a type of model used to convert sentences into dense v
 
 ### Vector embedding:
 Vector embedding is the process of converting text into numerical vectors that capture the semantic meaning of the text. In this project, we use the Vietnamese LLM sentence-transformer (sup-SimCSE-VietNamese-phobert-base) to create embeddings for documents, which are then stored in Qdrant VectorDB for efficient retrieval.
+![Project Logo](./docs/qrant.png)
 
 ### Retrieval:
 Retrieval involves searching for and fetching relevant documents from a knowledge base. In this project, we use the embeddings stored in Qdrant VectorDB to quickly find documents that are most relevant to the input query, improving the accuracy and relevance of the generated responses.
