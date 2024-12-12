@@ -66,9 +66,12 @@ This workflow ensures efficient processing and retrieval of information, leverag
 To run this project on your local machine, follow these steps:
 - Make sure your PC installed docker and VS code extentions DevContainer
 - `Ctrl` + `Shift` + `P` then Search Reopen in DevContainer (Waiting for image downloaded then run following step)
-1. **Install Dependencies**: (about 10 minutes :))
-  ```bash
+
+1. **Install Dependencies**: (about 10 minutes :)
+
+```bash
   pip3 install -r requirements.txt
+```
 
 2. **Start FastAPI Server**:
 By default your application will runing at `http://localhost:8000/docs`
@@ -86,9 +89,7 @@ These commands will set up the necessary environment and start the services requ
 ### Docker:
 ### K8S:
 ### AWS:
-
 ## See our benchmark:
-// TODO: Benmark 
 
 ## Resources:
-- (RAG 101: Demystifying Retrieval-Augmented Generation Pipelines)[https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/]
+- [RAG 101: Demystifying Retrieval-Augmented Generation Pipelines](https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/)
