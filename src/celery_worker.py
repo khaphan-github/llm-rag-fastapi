@@ -2,9 +2,8 @@ from celery import Celery
 from config.settings import settings
 from uploader.file_reader import LocalFileReader, FileConverter
 from pre_processing.vector_embedding import Preprocessor
-from llm.sentence_transformers import singleton_model
 from data_store.vector_db import embedding_store
-
+from llm.sentence_transformers import singleton_model
 ## Class publish event to celery queue with message file path, file id, with key embedding_job
 ## Connectoion be delclared in .env file CELERY_BROKER_URL
 # Load the CELERY_BROKER_URL from the environment variables
@@ -29,7 +28,11 @@ class CeleryPublisher:
     self.app.send_task('tasks.process_file', args=[message])
     print(f"Publishing event to Celery with message: {message}")
 
-@celery_app.task(name='tasks.process_file', rate_limit='20/m', max_retries=2)
+@celery_app.task(
+  name='tasks.process_file', 
+  # rate_limit='20/m', 
+  max_retries=2
+)
 def process_file(message):
   try:
     file_path = message['file_path']

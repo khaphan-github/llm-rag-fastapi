@@ -2,3 +2,7 @@
 **/__pycache__/
 *.pyc
 /src/.env
+
+/devops/docker/llm_cache
+/devops/docker/qdrant_storage
+/devops/docker/uploaded_files

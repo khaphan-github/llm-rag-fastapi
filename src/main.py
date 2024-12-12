@@ -2,7 +2,7 @@ import os
 import asyncio
 from fastapi import FastAPI, UploadFile, File
 from uploader.uploader import LocalFileUploader
-from worker.celery_worker import CeleryPublisher
+from celery_worker import CeleryPublisher
 from config.settings import settings
 from config.system_prompt import SYSTEM_PROMPT
 from data_store.vector_db import embedding_store
@@ -44,3 +44,11 @@ def search_similar(search_query: SearchQuery):
     search_result = embedding_store.search_similar(embeddings[0], 3)
     system_data = [e.payload['content'] for e in search_result]
     return {"answer": f"{SYSTEM_PROMPT} User query: {search_query.query} System Data: {system_data}" }
+
+
+@app.get("/health")
+def health_check():
+    """
+    Simple health check endpoint.
+    """
+    return {"status": "ok"}

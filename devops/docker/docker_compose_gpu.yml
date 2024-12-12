@@ -1,20 +1,69 @@
 version: '3.8'
 ## docker compose -f docker_compose_gpu.yml up --build
+x-common-variables: &common-variables
+  build:
+    context: ../../src
+    dockerfile: DockerfileGPU
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            capabilities: [compute, utility]
+  env_file:
+    - ../../src/.env
+  environment:
+    - NVIDIA_VISIBLE_DEVICES=all
+    - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    - CELERY_BROKER_URL=redis://redis:6379/0
+    - UPLOAD_DIR=/uploaded_files
+    - LLM_BASE_MODEL_CACHE_DIR=/llm_cache
+    - QDRANT_CLIENT_URL=http://qdrant:6333
+    - QDRANT_CLIENT_API_KEY=4UKexYYDgW3mRo9SJn3lGKGT7FWkCrJ_cys_XxkJhGzTiOx1jOYHuA
+  runtime: nvidia
+  networks:
+    - local
+  volumes:
+  - ./uploaded_files:/uploaded_files
+  - ./llm_cache:/llm_cache
+
 services:
   app:
     image: llm_rag_fastapi_gpu:latest 
-    build:
-      context: ../../src
-      dockerfile: DockerfileGPU
+    <<: *common-variables
     ports:
       - "8000:8000"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              capabilities: [compute, utility]
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-    runtime: nvidia
+    depends_on:
+      - redis
+      - qdrant
+
+  celery_worker:
+    image: llm_rag_fastapi_gpu:latest
+    <<: *common-variables
+    command: celery -A celery_worker.celery_app worker -P threads --loglevel=info
+    depends_on:
+      - app
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - local
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    networks:
+      - local
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+
+volumes:
+  uploaded_files:
+  llm_cache:
+
+networks:
+  local:
+    driver: bridge
