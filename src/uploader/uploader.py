@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+from config.settings import settings
 
 ## This file handles logic for file upload from user then store to many data stores
 ## I want to apply SOLID principles to this file to make it more readable and maintainable
@@ -12,7 +13,7 @@ class FileUploader(ABC):
         pass
 
 class LocalFileUploader(FileUploader):
-    def __init__(self, upload_dir: str):
+    def __init__(self, upload_dir: str = settings.UPLOAD_DIR):
         self.upload_dir = upload_dir
 
     def upload(self, file_path: str, file_content: bytes):

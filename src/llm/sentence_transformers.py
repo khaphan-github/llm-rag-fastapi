@@ -1,4 +1,5 @@
-from sentence_transformers import SentenceTransformer, util
+import torch
+from sentence_transformers import SentenceTransformer
 
 class SingletonMeta(type):
   _instances = {}
@@ -12,8 +13,9 @@ class SingletonMeta(type):
 class SentenceTransformerSingleton(metaclass=SingletonMeta):
   def __init__(self, model_name='VoVanPhuc/sup-SimCSE-VietNamese-phobert-base', cache_folder='./llm_cache'):
     print('Creating SentenceTransformerSingleton instance...')
-    self.model = SentenceTransformer(model_name, cache_folder=cache_folder)
-    print('Creating SentenceTransformerSingleton instance... Done!')
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    self.model = SentenceTransformer(model_name, cache_folder=cache_folder, device=device)
+    print(f'Creating SentenceTransformerSingleton instance... Done! cuda: {torch.cuda.is_available()}')
 
   def encode(self, texts):
     return self.model.encode(texts)

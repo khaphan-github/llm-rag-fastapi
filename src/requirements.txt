@@ -9,3 +9,5 @@ transformers
 sentence-transformers  
 qdrant-client 
 underthesea
+
+bs4
