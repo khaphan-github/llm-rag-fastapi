@@ -35,6 +35,8 @@ To run this project efficiently, the following minimum hardware requirements are
 
 
 ## Workflow:
+![Project Logo](./docs/nvidia_rag.png)
+
 1. **Data Ingestion**: Documents are ingested and sent to the Celery worker.
 2. **Embedding Creation**: The Celery worker uses the Vietnamese LLM sentence-transformer to create embeddings for the documents.
 3. **Storage**: The embeddings are stored in Qdrant VectorDB.
