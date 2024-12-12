@@ -50,11 +50,9 @@ To run this project on your local machine, follow these steps:
 - `Ctrl` + `Shift` + `P` then Search Reopen in DevContainer (Waiting for image downloaded then run following step)
 
 1. **Install Dependencies**: (about 10 minutes :)
-
-```bash
-  pip3 install -r requirements.txt
-```
-
+  ```bash
+    pip3 install -r requirements.txt
+  ```
 2. **Start FastAPI Server**:
 By default your application will runing at `http://localhost:8000/docs`
   ```bash
@@ -92,6 +90,6 @@ two pieces of similar text passed through an embedding model should have a high 
 different topics will have a lower similarity score. Common similarity score measures are dot product and cosine similarity.
 
  
- 
+
 ## Resources:
 - [RAG 101: Demystifying Retrieval-Augmented Generation Pipelines](https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/)
