@@ -1,0 +1,20 @@
+version: '3.8'
+## docker compose -f docker_compose_gpu.yml up --build
+services:
+  app:
+    image: llm_rag_fastapi_gpu:latest 
+    build:
+      context: ../../src
+      dockerfile: DockerfileGPU
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [compute, utility]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    runtime: nvidia

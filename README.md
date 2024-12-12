@@ -33,8 +33,6 @@ To run this project efficiently, the following minimum hardware requirements are
 - **GPU**: NVIDIA GPU with at least >= 2 GB VRAM (for GPU acceleration - optional)
 - **Storage**: >= 6 GB SSD (Contain source code and database)
 
-## See our benchmark:
-// TODO: Benmark 
 ## Concept:
 ### What is RAG?
 Retrieval-Augmented Generation (RAG) is a technique that combines retrieval-based and generation-based methods to improve the quality and relevance of generated text. It retrieves relevant documents from a knowledge base and uses them to generate more accurate and contextually appropriate responses.
@@ -48,8 +46,10 @@ Vector embedding is the process of converting text into numerical vectors that c
 ### Retrieval:
 Retrieval involves searching for and fetching relevant documents from a knowledge base. In this project, we use the embeddings stored in Qdrant VectorDB to quickly find documents that are most relevant to the input query, improving the accuracy and relevance of the generated responses.
 
-### Time and latency:
-Time and latency are critical factors in the performance of a RAG system. By leveraging both GPU and CPU resources, and using efficient data structures like vector embeddings, this project aims to minimize the time and latency involved in processing queries and generating responses.
+### Similarity search/vector search
+Similarity search/vector search aims to find two vectors which are close together in high-demensional space. For example,
+two pieces of similar text passed through an embedding model should have a high similarity score, whereas two pieces of text about
+different topics will have a lower similarity score. Common similarity score measures are dot product and cosine similarity.
 
  
 ## Workflow:
@@ -62,27 +62,33 @@ Time and latency are critical factors in the performance of a RAG system. By lev
 This workflow ensures efficient processing and retrieval of information, leveraging both GPU and CPU resources for optimal performance.
 
 ## Run Locally
+### Run in dev container
 To run this project on your local machine, follow these steps:
-
-1. **Install Dependencies**:
+- Make sure your PC installed docker and VS code extentions DevContainer
+- `Ctrl` + `Shift` + `P` then Search Reopen in DevContainer (Waiting for image downloaded then run following step)
+1. **Install Dependencies**: (about 10 minutes :))
   ```bash
   pip3 install -r requirements.txt
-  ```
 
 2. **Start FastAPI Server**:
+By default your application will runing at `http://localhost:8000/docs`
   ```bash
   uvicorn main:app --reload
   ```
-
 3. **Start Celery Worker**:
+It will connect to redis container inside DevContainer
   ```bash
   celery -A worker.celery_worker.celery_app worker --loglevel=info
   ```
-
 These commands will set up the necessary environment and start the services required for the project to function locally.
-
 
 ## Setup cluster:
 ### Docker:
 ### K8S:
 ### AWS:
+
+## See our benchmark:
+// TODO: Benmark 
+
+## Resources:
+- (RAG 101: Demystifying Retrieval-Augmented Generation Pipelines)[https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/]

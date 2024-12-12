@@ -11,6 +11,7 @@ from data_store.vector_db import embedding_store
 ##  celery -A worker.celery_worker.celery_app worker --loglevel=info 
 # Initialize the Celery app
 celery_app = Celery('publisher', broker=settings.CELERY_BROKER_URL, backend=settings.CELERY_BROKER_URL)
+
 celery_app.conf.update(
   broker_connection_retry_on_startup=True,
   worker_concurrency=4
