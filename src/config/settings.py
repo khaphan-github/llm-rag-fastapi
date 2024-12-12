@@ -10,4 +10,6 @@ class Settings:
   CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
   QDRANT_CLIENT_URL = os.getenv('QDRANT_CLIENT_URL')
   QDRANT_CLIENT_API_KEY = os.getenv('QDRANT_CLIENT_API_KEY')
+  LLM_BASE_MODEL = os.getenv('LLM_BASE_MODEL')
+  
 settings = Settings()

@@ -23,11 +23,9 @@ async def upload_file(file: UploadFile = File(...)):
     try:
         file_content = await file.read()
         
-        # Rename original file using uuidv4 before saving
         new_filename = f"{uuid.uuid4()}{os.path.splitext(file.filename)[1]}"
         new_file_path = os.path.join(upload_dir, new_filename)
         
-        # Upload file and publish event concurrently
         await asyncio.to_thread(local_uploader.upload, new_file_path, file_content)
         await asyncio.to_thread(publisher.publish_event, new_file_path, file.filename)
         
@@ -38,6 +36,7 @@ async def upload_file(file: UploadFile = File(...)):
 class SearchQuery(BaseModel):
     query: str
 
+# IT wll return stream.
 @app.post("/search/")
 def search_similar(search_query: SearchQuery):
     # Assuming you have a model to encode the query into an embedding

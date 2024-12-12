@@ -1,3 +1,4 @@
 /src/llm_cache
 **/__pycache__/
+*.pyc
 /src/.env
