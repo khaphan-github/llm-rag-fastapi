@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: llm_rag_fastapi_gpu:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: "all"
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: "compute,utility"
+        - name: CELERY_BROKER_URL
+          value: "redis://redis:6379/0"
+        - name: UPLOAD_DIR
+          value: "/uploaded_files"
+        - name: LLM_BASE_MODEL_CACHE_DIR
+          value: "/llm_cache"
+        - name: QDRANT_CLIENT_URL
+          value: "http://qdrant:6333"
+        - name: QDRANT_CLIENT_API_KEY
+          value: "4UKexYYDgW3mRo9SJn3lGKGT7FWkCrJ_cys_XxkJhGzTiOx1jOYHuA"
+        volumeMounts:
+        - mountPath: /uploaded_files
+          name: uploaded-files
+        - mountPath: /llm_cache
+          name: llm-cache
+      volumes:
+      - name: uploaded-files
+        persistentVolumeClaim:
+          claimName: uploaded-files-pvc
+      - name: llm-cache
+        persistentVolumeClaim:
+          claimName: llm-cache-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-worker
+  template:
+    metadata:
+      labels:
+        app: celery-worker
+    spec:
+      containers:
+      - name: celery-worker
+        image: llm_rag_fastapi_gpu:latest
+        command: ["celery", "-A", "celery_worker.celery_app", "worker", "-P", "threads", "--loglevel=info"]
+        env:
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: "all"
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: "compute,utility"
+        - name: CELERY_BROKER_URL
+          value: "redis://redis:6379/0"
+        - name: UPLOAD_DIR
+          value: "/uploaded_files"
+        - name: LLM_BASE_MODEL_CACHE_DIR
+          value: "/llm_cache"
+        - name: QDRANT_CLIENT_URL
+          value: "http://qdrant:6333"
+        - name: QDRANT_CLIENT_API_KEY
+          value: "4UKexYYDgW3mRo9SJn3lGKGT7FWkCrJ_cys_XxkJhGzTiOx1jOYHuA"
+        volumeMounts:
+        - mountPath: /uploaded_files
+          name: uploaded-files
+        - mountPath: /llm_cache
+          name: llm-cache
+      volumes:
+      - name: uploaded-files
+        persistentVolumeClaim:
+          claimName: uploaded-files-pvc
+      - name: llm-cache
+        persistentVolumeClaim:
+          claimName: llm-cache-pvc
