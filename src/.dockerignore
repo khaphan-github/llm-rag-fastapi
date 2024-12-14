@@ -92,3 +92,6 @@ venv/
 README.md
 research.md
 push_to_hub.sh
+/note_book
+/llm_cache
+/scrawler
