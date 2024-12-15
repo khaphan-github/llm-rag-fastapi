@@ -11,3 +11,5 @@ qdrant-client
 underthesea
 
 bs4
+scikit-learn
+numpy
