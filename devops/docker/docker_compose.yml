@@ -1,6 +1,6 @@
 version: '3.8'
 ## docker compose -f docker_compose_gpu.yml up --build
-## run nvidia/setup.sh before running docker-compose
+## run nvidia_tool_kit.sh before running docker-compose
 x-common-variables: &common-variables
   build:
     context: ../../src

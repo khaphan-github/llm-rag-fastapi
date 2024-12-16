@@ -13,3 +13,6 @@ underthesea
 bs4
 scikit-learn
 numpy
+
+langchain
+dspy
