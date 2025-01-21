@@ -43,7 +43,7 @@ class Preprocessor:
       return distances
 
 
-  def get_embeddings(self, texts, model_name='keepitreal/vietnamese-sbert'):
+  def get_embeddings(self, texts, model_name=settings.LLM_BASE_MODEL):
       tokenizer = AutoTokenizer.from_pretrained(model_name)
       model = AutoModel.from_pretrained(model_name)
 

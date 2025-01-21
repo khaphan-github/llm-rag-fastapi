@@ -12,5 +12,7 @@ class Settings:
   QDRANT_CLIENT_API_KEY = os.getenv('QDRANT_CLIENT_API_KEY')
   LLM_BASE_MODEL = os.getenv('LLM_BASE_MODEL')
   LLM_BASE_MODEL_CACHE_DIR = os.getenv('LLM_BASE_MODEL_CACHE_DIR')
+  LLM_AGENT_HOST = os.getenv('LLM_AGENT_HOST')
+  LLM_AGENT_BASE_MODEL = os.getenv('LLM_AGENT_BASE_MODEL')
   
 settings = Settings()

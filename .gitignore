@@ -6,3 +6,4 @@
 /devops/docker/llm_cache
 /devops/docker/qdrant_storage
 /devops/docker/uploaded_files
+/devops/docker/ollama

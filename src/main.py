@@ -1,14 +1,17 @@
 import os
 import asyncio
 from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import StreamingResponse
 from uploader.uploader import LocalFileUploader
 from celery_worker import CeleryPublisher
 from config.settings import settings
 from config.system_prompt import SYSTEM_PROMPT
 from data_store.vector_db import embedding_store
 from llm.sentence_transformers import singleton_model
+from llm.chat_completions import chat_completion
 from pydantic import BaseModel
 import uuid
+import logging
 
 app = FastAPI()
 
@@ -37,14 +40,31 @@ class SearchQuery(BaseModel):
     query: str
 
 # IT wll return stream.
-@app.post("/search/")
-def search_similar(search_query: SearchQuery):
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@app.post("/completion/")
+async def search_similar(search_query: SearchQuery):
+    logger.info("Received search query: %s", search_query.query)
+    
     # Assuming you have a model to encode the query into an embedding
     embeddings = singleton_model.encode([search_query.query])
+    logger.info("Encoded query into embeddings: %s", embeddings)
+    
     search_result = embedding_store.search_similar(embeddings[0], 3)
+    logger.info("Search results: %s", search_result)
+    
     system_data = [e.payload['content'] for e in search_result]
-    return {"answer": f"{SYSTEM_PROMPT} User query: {search_query.query} System Data: {system_data}" }
-
+    logger.info("System data extracted from search results: %s", system_data)
+    
+    prompt = f"{SYSTEM_PROMPT} User query: {search_query.query}. Get most suitable data to interact with user query follow this System Data: {system_data}"
+    logger.info("Constructed prompt for chat completion: %s", prompt)
+    
+    async def stream_response():
+        async for chunk in chat_completion(prompt):
+            yield chunk
+    return StreamingResponse(stream_response(), media_type="text/plain")
 
 @app.get("/health")
 def health_check():

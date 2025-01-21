@@ -16,3 +16,4 @@ numpy
 
 langchain
 dspy
+ollama
