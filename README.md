@@ -67,6 +67,8 @@ It will connect to redis container inside DevContainer
   ```
 These commands will set up the necessary environment and start the services required for the project to function locally.
 
+4. **Example api**
+![Project Logo](./docs/image_api.png)
 ## Setup cluster:
 ### Docker:
 ### K8S:
